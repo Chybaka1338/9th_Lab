@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _9th_Lab
 {
-    internal class Program
+    public class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            Class1.Me();
+            Task4.Run();
             Console.ReadKey();
-
-            
         }
     }
 }
