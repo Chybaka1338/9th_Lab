@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _9th_Lab
 {
-    abstract class Person
+    abstract class Person : IComparable
     {
         public readonly string _lastName;
 
@@ -15,7 +15,7 @@ namespace _9th_Lab
             _lastName = lastName;
         }
 
-        abstract public double GetResult();
+        abstract public int CompareTo(object obj);
 
         abstract public void Print();
     }
