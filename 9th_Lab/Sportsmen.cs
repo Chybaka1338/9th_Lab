@@ -26,7 +26,7 @@ namespace _9th_Lab
         override
         public void Print()
         {
-            Console.WriteLine("{0} {1:mm:ss}", _lastName, _time);
+            Console.WriteLine("{0} {1:mm\'m\':ss\'s\'}", _lastName, _time);
         }
 
         override
