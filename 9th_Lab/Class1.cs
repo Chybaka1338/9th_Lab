@@ -2,63 +2,29 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 
 namespace _9th_Lab
 {
     internal class Class1
     {
-        public static List<Person> InitializeStudents(string path, ParseStudent Parser)
+        public static string[] ReadFromFile(string path)
         {
             if (!File.Exists(path))
             {
                 Process.GetCurrentProcess().Kill();
             }
 
-            var students = new List<Person>();
-            try
+            var list = new List<string>();
+            using (var reader = new StreamReader(path, Encoding.UTF8))
             {
-                using (var reader = new StreamReader(path))
+                string line;
+                while((line = reader.ReadLine()) != null)
                 {
-                    string line;
-
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        students.Add(Parser.Invoke(line));
-                    }
-                }
-            } 
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            return students;
-        }
-
-        public static List<Person> InitializeSportsmens(string path, ParseSportsmen Parser)
-        {
-            if (!File.Exists(path))
-            {
-                Process.GetCurrentProcess().Kill();
-            }
-
-            var students = new List<Person>();
-            try
-            {
-                using (var reader = new StreamReader(path))
-                {
-                    string line;
-
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        students.Add(Parser.Invoke(line));
-                    }
+                    list.Add(line);
                 }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            return students;
+            return list.ToArray();
         }
     }
 }
