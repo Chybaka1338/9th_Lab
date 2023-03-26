@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _9th_Lab
 {
-    internal class Group
+    internal class Group : IComparable
     {
         List<Person> _persons;
         double _middle;
+
+        public double Middle { get { return _middle; } }
+
         public static Group Instance(List<Person> list)
         {
             Group group = new Group();
             group._persons = list;
             group._middle = 0;
-            list.ForEach(item =>
-            {
-                group._middle += item.GetResult();
-            });
+            list.ForEach(item => group._middle += item is Student student ? student.Middle : 0);
             group._middle /= list.Count;
             group.Sort();
             return group;
@@ -33,12 +29,7 @@ namespace _9th_Lab
                 Process.GetCurrentProcess().Kill();
             }
 
-            var type = _persons[0].GetType();
-            var reverse = Type.GetType("_9th_Lab.Student") == type ? -1 : 1;
-            _persons.Sort((person1, person2) =>
-            {
-                return person1.GetResult().CompareTo(person2.GetResult()) * reverse;
-            });
+            _persons.Sort();
         }
 
         public Group ExpandGroup(Group g)
@@ -49,8 +40,10 @@ namespace _9th_Lab
             int j = 0;
             while (i < _persons.Count && j < g._persons.Count)
             {
-                var s = _persons[i].GetResult() < g._persons[j].GetResult() ? _persons[i++] : g._persons[j++];
-                commonGroup._persons.Add(s);
+                if (_persons[i].CompareTo(g._persons[j]) == -1)
+                    commonGroup._persons.Add(_persons[i++]);
+                else
+                    commonGroup._persons.Add(g._persons[j++]);
             }
             while (i < _persons.Count)
             {
@@ -73,6 +66,12 @@ namespace _9th_Lab
                 item.Print();
             });
             Console.WriteLine("_______________________");
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is Group g) return _middle.CompareTo(g._middle) * (-1);
+            else throw new ArgumentException("invalid type");
         }
     }
 }
