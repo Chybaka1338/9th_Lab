@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _9th_Lab
 {
@@ -35,12 +30,6 @@ namespace _9th_Lab
         }
 
         override
-        public double GetResult()
-        {
-            return _middleScore;
-        }
-
-        override
         public void Print()
         {
             Console.Write($"{_lastName}: ");
@@ -49,6 +38,13 @@ namespace _9th_Lab
                 Console.Write($"{mark} ");
             }
             Console.WriteLine();
+        }
+
+        override
+        public int CompareTo(object obj)
+        {
+            if (obj is Student student) return _middleScore.CompareTo(student._middleScore) * (-1);
+            else throw new ArgumentException("invalid type");
         }
     }
 }
