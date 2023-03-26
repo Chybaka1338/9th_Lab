@@ -1,19 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace _9th_Lab
 {
     internal class Task1
     {
-        public static void Run()
+        public static void Run(string[] paths)
         {
-            string path1 = @"./firstGroup.txt";
-            string path2 = @"./secondGroup.txt";
-            var g1 = Group.Instance(Class1.InitializeStudents(path1, ParseInfo));
-            var g2 = Group.Instance(Class1.InitializeStudents(path2, ParseInfo));
-            g1.Print();
-            g2.Print();
+            var groups = new List<Group>();
+            foreach(var path in paths)
+            {
+                groups.Add(Group.Instance(GetList(Class1.ReadFromFile(path))));
+            }
+
+            groups.Sort();
+            foreach(var group in groups)
+            {
+                group.Print();
+            }
+        }
+
+        public static List<Person> GetList(string[] lines)
+        {
+            var list = new List<Person>();
+            foreach (var line in lines)
+            {
+                list.Add(ParseInfo(line));
+            }
+            return list;
         }
 
         public static Student ParseInfo(string info)
